@@ -1,1 +1,1 @@
-# frontend-learning
+# fullstack-course
