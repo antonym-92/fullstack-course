@@ -1,1 +1,1 @@
-# fullstack-course
+# fullstack course
