@@ -1,53 +1,59 @@
 import PropTypes from 'prop-types';
 
-const Header = (props) => {
+const Header = ({ course }) => {
   return (
     <h1>
-      {props.course}
+      {course}
     </h1>
   )
 }
 
-const Part = (props) => {
+const Part = ({ name, exercises }) => {
   return (
     <p>
-      {props.part} {props.exercises}
+      {name} {exercises}
     </p>
   )
 }
 
-const Content = (props) => {
+const Content = ({ part1, part2, part3 }) => {
   return (
     <>
-      <Part part={props.part1} exercises={props.exercises1} />
-      <Part part={props.part2} exercises={props.exercises2} />
-      <Part part={props.part3} exercises={props.exercises3} />
+      <Part {...part1} />
+      <Part {...part2} />
+      <Part {...part3} />
     </>
   )
 }
 
-const Total = (props) => {
+const Total = ({ exercises1, exercises2, exercises3 }) => {
   return (
     <p>
-      Number of exercises {props.exercises1 + props.exercises2 + props.exercises3}
+      Number of exercises {exercises1 + exercises2 + exercises3}
     </p>
   )
 }
 
 const App = () => {
   const course = 'Half Stack application development'
-  const part1 = 'Fundamentals of React'
-  const exercises1 = 10
-  const part2 = 'Using props to pass data'
-  const exercises2 = 7
-  const part3 = 'State of a component'
-  const exercises3 = 14
+  const part1 = {
+    name: 'Fundamentals of React',
+    exercises: 10
+  }
+  const part2 = {
+    name: 'Using props to pass data',
+    exercises: 7
+  }
+  const part3 = {
+    name: 'State of a component',
+    exercises: 14
+  }
 
   return (
     <div>
       <Header course={course} />
-      <Content part1={part1} exercises1={exercises1} part2={part2} exercises2={exercises2} part3={part3} exercises3={exercises3} />
-      <Total exercises1={exercises1} exercises2={exercises2} exercises3={exercises3} />
+      <Content part1={part1} part2={part2} part3={part3} />
+      <Total exercises1={part1.exercises} exercises2={part2.exercises} exercises3={part3.exercises} />
     </div>
   )
 }
@@ -57,17 +63,23 @@ Header.propTypes = {
 }
 
 Part.propTypes = {
-  part: PropTypes.string.isRequired,
+  name: PropTypes.string.isRequired,
   exercises: PropTypes.number.isRequired
 }
 
 Content.propTypes = {
-  part1: PropTypes.string.isRequired,
-  exercises1: PropTypes.number.isRequired,
-  part2: PropTypes.string.isRequired,
-  exercises2: PropTypes.number.isRequired,
-  part3: PropTypes.string.isRequired,
-  exercises3: PropTypes.number.isRequired
+  part1: PropTypes.exact({
+    name: PropTypes.string.isRequired,
+    exercises: PropTypes.number.isRequired
+  }).isRequired,
+  part2: PropTypes.exact({
+    name: PropTypes.string.isRequired,
+    exercises: PropTypes.number.isRequired
+  }).isRequired,
+  part3: PropTypes.exact({
+    name: PropTypes.string.isRequired,
+    exercises: PropTypes.number.isRequired
+  }).isRequired,
 }
 
 Total.propTypes = {
