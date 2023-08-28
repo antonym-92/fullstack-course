@@ -1,9 +1,9 @@
 import PropTypes from 'prop-types';
 
-const Header = ({ course }) => {
+const Header = ({ name }) => {
   return (
     <h1>
-      {course}
+      {name}
     </h1>
   )
 }
@@ -35,33 +35,35 @@ const Total = ({ parts }) => {
 }
 
 const App = () => {
-  const course = 'Half Stack application development'
-  const parts = [
-    {
-      name: 'Fundamentals of React',
-      exercises: 10
-    },
-    {
-      name: 'Using props to pass data',
-      exercises: 7
-    },
-    {
-      name: 'State of a component',
-      exercises: 14
-    }
-  ]
+  const course = {
+    name: 'Half Stack application development',
+    parts: [
+      {
+        name: 'Fundamentals of React',
+        exercises: 10
+      },
+      {
+        name: 'Using props to pass data',
+        exercises: 7
+      },
+      {
+        name: 'State of a component',
+        exercises: 14
+      }
+    ]
+  }
 
   return (
     <div>
-      <Header course={course} />
-      <Content parts={parts} />
-      <Total parts={parts} />
+      <Header {...course} />
+      <Content {...course} />
+      <Total {...course} />
     </div>
   )
 }
 
 Header.propTypes = {
-  course: PropTypes.string.isRequired
+  name: PropTypes.string.isRequired
 }
 
 Part.propTypes = {
