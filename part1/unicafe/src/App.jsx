@@ -22,9 +22,19 @@ const Statistics = ({ good, neutral, bad }) => {
   const average = sum / 3
   const positivePercentage = sum > 0 && good > 0 ? (good / sum) * 100 : 0
 
+  const header = <Header text={"statistics"} />
+
+  if (sum === 0)
+    return (
+      <>
+        {header}
+        <p>No feedback given</p>
+      </>
+    )
+
   return (
     <>
-      <Header text={"statistics"} />
+      {header}
       <p>{`good ${good}`}</p>
       <p>{`neutral ${neutral}`}</p>
       <p>{`bad ${bad}`}</p>
