@@ -9,7 +9,18 @@ const Button = ({ text, handleClick }) => (
   </button>
 )
 
-const StatisticLine = ({text, value}) => <p>{`${text} ${value}`}</p>
+const StatisticRow = ({ cellLeft, cellRight }) =>
+  <tr>
+    <td>{cellLeft}</td>
+    <td>{cellRight}</td>
+  </tr>
+
+const StatisticTable = ({ rows }) =>
+  <table>
+    <tbody>
+      {rows.map((item, index) => <StatisticRow key={index} {...item} />)}
+    </tbody>
+  </table>
 
 const Feedback = ({ handleGoodClick, handleNeutralClick, handleBadClick }) =>
   <>
@@ -34,15 +45,19 @@ const Statistics = ({ good, neutral, bad }) => {
       </>
     )
 
+  const rows = [
+    { cellLeft: "good", cellRight: good },
+    { cellLeft: "neutral", cellRight: neutral },
+    { cellLeft: "bad", cellRight: bad },
+    { cellLeft: "all", cellRight: sum },
+    { cellLeft: "average", cellRight: average },
+    { cellLeft: "positive", cellRight: positivePercentage },
+  ]
+
   return (
     <>
       {header}
-      <StatisticLine text={"good"} value={good} />
-      <StatisticLine text={"neutral"} value={neutral} />
-      <StatisticLine text={"bad"} value={bad} />
-      <StatisticLine text={"all"} value={sum} />
-      <StatisticLine text={"average"} value={average} />
-      <StatisticLine text={"positive"} value={positivePercentage} />
+      <StatisticTable rows={rows} />
     </>
   )
 }
@@ -78,9 +93,16 @@ Button.propTypes = {
   handleClick: PropTypes.func.isRequired
 }
 
-StatisticLine.propTypes = {
-  text: PropTypes.string.isRequired,
-  value: PropTypes.number.isRequired
+StatisticRow.propTypes = {
+  cellLeft: PropTypes.string.isRequired,
+  cellRight: PropTypes.number.isRequired
+}
+
+StatisticTable.propTypes = {
+  rows: PropTypes.arrayOf(PropTypes.exact({
+    cellLeft: PropTypes.string.isRequired,
+    cellRight: PropTypes.number.isRequired
+  })).isRequired
 }
 
 Feedback.propTypes = {
