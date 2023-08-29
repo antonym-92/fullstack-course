@@ -9,6 +9,8 @@ const Button = ({ text, handleClick }) => (
   </button>
 )
 
+const StatisticLine = ({text, value}) => <p>{`${text} ${value}`}</p>
+
 const Feedback = ({ handleGoodClick, handleNeutralClick, handleBadClick }) =>
   <>
     <Header text={"give feedback"} />
@@ -35,12 +37,12 @@ const Statistics = ({ good, neutral, bad }) => {
   return (
     <>
       {header}
-      <p>{`good ${good}`}</p>
-      <p>{`neutral ${neutral}`}</p>
-      <p>{`bad ${bad}`}</p>
-      <p>{`all ${sum}`}</p>
-      <p>{`average ${average}`}</p>
-      <p>{`positive ${positivePercentage}`}</p>
+      <StatisticLine text={"good"} value={good} />
+      <StatisticLine text={"neutral"} value={neutral} />
+      <StatisticLine text={"bad"} value={bad} />
+      <StatisticLine text={"all"} value={sum} />
+      <StatisticLine text={"average"} value={average} />
+      <StatisticLine text={"positive"} value={positivePercentage} />
     </>
   )
 }
@@ -74,6 +76,11 @@ Header.propTypes = {
 Button.propTypes = {
   text: PropTypes.string.isRequired,
   handleClick: PropTypes.func.isRequired
+}
+
+StatisticLine.propTypes = {
+  text: PropTypes.string.isRequired,
+  value: PropTypes.number.isRequired
 }
 
 Feedback.propTypes = {
