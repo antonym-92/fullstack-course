@@ -34,16 +34,7 @@ const App = () => {
   const [points, setPoints] = useState(anecdotes.map(() => 0))
 
   const getRandom = () => Math.floor(Math.random() * anecdotes.length)
-  const mostVoted = (() => {
-    let maxPointIndex = 0
-    let index = 1
-    while (index < points.length) {
-      if (points[maxPointIndex] < points[index])
-        maxPointIndex = index
-      ++index
-    }
-    return maxPointIndex
-  })()
+  const mostVoted = points.reduce((prevIndex, point, index, array) => array[prevIndex] < point ? index : prevIndex, 0)
 
   return (
     <div>
