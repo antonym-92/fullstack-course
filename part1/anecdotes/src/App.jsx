@@ -1,12 +1,17 @@
 import { useState } from 'react'
 import PropTypes from 'prop-types'
 
-const TextLine = ({ text }) =>
-  <h2>
+const Header = ({ text }) =>
+  <h1>
     <strong>
       {text}
     </strong>
-  </h2>
+  </h1>
+
+const Text = ({ text }) =>
+  <p>
+    {text}
+  </p>
 
 const Button = ({ text, handleClick }) =>
   <button onClick={handleClick}>
@@ -25,17 +30,26 @@ const App = () => {
     'The only way to go fast, is to go well.'
   ]
 
-  const getRandom = () => Math.floor(Math.random() * anecdotes.length)
-
   const [selected, setSelected] = useState(0)
   const [points, setPoints] = useState(anecdotes.map(() => 0))
 
-  
+  const getRandom = () => Math.floor(Math.random() * anecdotes.length)
+  const mostVoted = (() => {
+    let maxPointIndex = 0
+    let index = 1
+    while (index < points.length) {
+      if (points[maxPointIndex] < points[index])
+        maxPointIndex = index
+      ++index
+    }
+    return maxPointIndex
+  })()
 
   return (
     <div>
-      <TextLine text={anecdotes[selected]} />
-      <TextLine text={`has ${points[selected]} votes`} />
+      <Header text={'Anecdote of the day'} />
+      <Text text={anecdotes[selected]} />
+      <Text text={`has ${points[selected]} votes`} />
       <Button text={'vote'} handleClick={() => {
         const copy = [...points]
         copy[selected] += 1;
@@ -49,11 +63,18 @@ const App = () => {
           return random
         })
       } />
+      <Header text={'Anecdote with most votes'} />
+      <Text text={anecdotes[mostVoted]} />
+      <Text text={`has ${points[mostVoted]} votes`} />
     </div>
   )
 }
 
-TextLine.propTypes = {
+Header.propTypes = {
+  text: PropTypes.string.isRequired
+}
+
+Text.propTypes = {
   text: PropTypes.string.isRequired
 }
 
