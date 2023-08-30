@@ -1,4 +1,17 @@
 import { useState } from 'react'
+import PropTypes from 'prop-types'
+
+const TextLine = ({ text }) =>
+  <h2>
+    <strong>
+      {text}
+    </strong>
+  </h2>
+
+const Button = ({ text, handleClick }) =>
+  <button onClick={handleClick}>
+    {text}
+  </button>
 
 const App = () => {
   const anecdotes = [
@@ -12,23 +25,41 @@ const App = () => {
     'The only way to go fast, is to go well.'
   ]
 
+  const getRandom = () => Math.floor(Math.random() * anecdotes.length)
+
   const [selected, setSelected] = useState(0)
+  const [points, setPoints] = useState(anecdotes.map(() => 0))
+
+  
 
   return (
     <div>
-      <h2>
-        <strong>
-          {anecdotes[selected]}
-        </strong>
-      </h2>
-      <button onClick={
-        () => {
-          const index = Math.floor(Math.random() * anecdotes.length)
-          setSelected(index)
-        }
-      }>next anecdote</button>
+      <TextLine text={anecdotes[selected]} />
+      <TextLine text={`has ${points[selected]} votes`} />
+      <Button text={'vote'} handleClick={() => {
+        const copy = [...points]
+        copy[selected] += 1;
+        setPoints(copy)
+      }} />
+      <Button text={'next anecdote'} handleClick={() =>
+        setSelected((prev) => {
+          let random = getRandom()
+          while (prev === random)
+            random = getRandom()
+          return random
+        })
+      } />
     </div>
   )
+}
+
+TextLine.propTypes = {
+  text: PropTypes.string.isRequired
+}
+
+Button.propTypes = {
+  text: PropTypes.string.isRequired,
+  handleClick: PropTypes.func.isRequired
 }
 
 export default App
