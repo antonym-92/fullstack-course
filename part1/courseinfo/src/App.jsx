@@ -19,45 +19,46 @@ const Part = ({ name, exercises }) => {
 const Content = ({ parts }) => {
   return (
     <>
-      {parts.map((part, index) => <Part key={index} {...part} />)}
+      {parts.map((part) => <Part key={part.id} {...part} />)}
     </>
   )
 }
 
-const Total = ({ parts }) => {
+const Course = ({ id, name, parts }) => {
   return (
-    <p>
-      Number of exercises {
-        parts.map(part => part.exercises)
-          .reduce((prev, curr) => prev + curr, 0)}
-    </p>
-  )
+    <>
+      <Header name={name} />
+      <Content parts={parts} />
+    </>)
 }
+
 
 const App = () => {
   const course = {
+    id: 1,
     name: 'Half Stack application development',
     parts: [
       {
         name: 'Fundamentals of React',
-        exercises: 10
+        exercises: 10,
+        id: 1
       },
       {
         name: 'Using props to pass data',
-        exercises: 7
+        exercises: 7,
+        id: 2
       },
       {
         name: 'State of a component',
-        exercises: 14
+        exercises: 14,
+        id: 3
       }
     ]
   }
 
   return (
     <div>
-      <Header {...course} />
-      <Content {...course} />
-      <Total {...course} />
+      <Course {...course} />
     </div>
   )
 }
@@ -73,13 +74,17 @@ Part.propTypes = {
 
 Content.propTypes = {
   parts: PropTypes.arrayOf(PropTypes.exact({
+    id: PropTypes.number.isRequired,
     name: PropTypes.string.isRequired,
     exercises: PropTypes.number.isRequired
   })).isRequired
 }
 
-Total.propTypes = {
+Course.propTypes = {
+  id: PropTypes.number.isRequired,
+  name: PropTypes.string.isRequired,
   parts: PropTypes.arrayOf(PropTypes.exact({
+    id: PropTypes.number.isRequired,
     name: PropTypes.string.isRequired,
     exercises: PropTypes.number.isRequired
   })).isRequired
