@@ -24,12 +24,26 @@ const Content = ({ parts }) => {
   )
 }
 
+const Total = ({ parts }) => {
+  return (
+    <p>
+      <strong>
+        total of {
+          parts.map(part => part.exercises)
+            .reduce((prev, curr) => prev + curr, 0)} exercises
+      </strong>
+    </p>
+  )
+}
+
 const Course = ({ id, name, parts }) => {
   return (
     <>
       <Header name={name} />
       <Content parts={parts} />
-    </>)
+      <Total parts={parts} />
+    </>
+  )
 }
 
 
@@ -52,6 +66,11 @@ const App = () => {
         name: 'State of a component',
         exercises: 14,
         id: 3
+      },
+      {
+        name: 'Redux',
+        exercises: 11,
+        id: 4
       }
     ]
   }
@@ -72,22 +91,24 @@ Part.propTypes = {
   exercises: PropTypes.number.isRequired
 }
 
+const partsPropTypes = PropTypes.arrayOf(PropTypes.exact({
+  id: PropTypes.number.isRequired,
+  name: PropTypes.string.isRequired,
+  exercises: PropTypes.number.isRequired
+})).isRequired
+
 Content.propTypes = {
-  parts: PropTypes.arrayOf(PropTypes.exact({
-    id: PropTypes.number.isRequired,
-    name: PropTypes.string.isRequired,
-    exercises: PropTypes.number.isRequired
-  })).isRequired
+  parts: partsPropTypes
+}
+
+Total.propTypes = {
+  parts: partsPropTypes
 }
 
 Course.propTypes = {
   id: PropTypes.number.isRequired,
   name: PropTypes.string.isRequired,
-  parts: PropTypes.arrayOf(PropTypes.exact({
-    id: PropTypes.number.isRequired,
-    name: PropTypes.string.isRequired,
-    exercises: PropTypes.number.isRequired
-  })).isRequired
+  parts: partsPropTypes
 }
 
 export default App
