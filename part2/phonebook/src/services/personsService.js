@@ -12,10 +12,15 @@ const getAll = () =>
         .get(baseUrl)
         .then(response => response.data)
 
+const update = (id, newPerson) =>
+    axios
+        .put(`${baseUrl}/${id}`, newPerson)
+        .then(response => response.data)
+
 const remove = id =>
     axios
         .delete(`${baseUrl}/${id}`)
 
 export default {
-    create, getAll, remove
+    create, getAll, update, remove
 }
