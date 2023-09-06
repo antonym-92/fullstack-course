@@ -36,7 +36,7 @@ const PersonsForm = ({ persons, setPersons, newName, setNewName, newNumber, setN
 
 PersonsForm.propTypes = {
     persons: PropTypes.arrayOf(PropTypes.exact({
-        id: PropTypes.string.isRequired,
+        id: PropTypes.number.isRequired,
         name: PropTypes.string.isRequired,
         number: PropTypes.string.isRequired
     })).isRequired,
