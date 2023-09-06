@@ -1,5 +1,5 @@
 import PropTypes from 'prop-types';
-import axios from 'axios';
+import personsService from '../services/personsService';
 
 const PersonsForm = ({ persons, setPersons, newName, setNewName, newNumber, setNewNumber }) => {
     const handleSubmit = (event) => {
@@ -15,9 +15,9 @@ const PersonsForm = ({ persons, setPersons, newName, setNewName, newNumber, setN
             number: newNumber
         }
 
-        axios.post('http://localhost:3001/persons', newPerson)
-            .then(response => response.data)
-            .then(added => setPersons([...persons, added]))
+        personsService
+            .create(newPerson)
+            .then(created => setPersons([...persons, created]))
     }
 
     return (
