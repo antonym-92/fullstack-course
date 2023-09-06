@@ -9,9 +9,13 @@ const create = newPerson =>
 
 const getAll = () =>
     axios
-        .get('http://localhost:3001/persons')
+        .get(baseUrl)
         .then(response => response.data)
 
+const remove = id =>
+    axios
+        .delete(`${baseUrl}/${id}`)
+
 export default {
-    create, getAll
+    create, getAll, remove
 }

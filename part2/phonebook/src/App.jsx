@@ -16,7 +16,7 @@ const App = () => {
   useEffect(() => {
     personsService
       .getAll()
-      .then(allPersons => setPersons(allPersons))
+      .then(all => setPersons(all))
   }, [])
 
   return (
@@ -44,6 +44,7 @@ const App = () => {
       </h2>
       <Persons
         persons={persons}
+        setPersons={setPersons}
         filter={filter}
       />
     </div>
