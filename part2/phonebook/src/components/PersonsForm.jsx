@@ -1,5 +1,5 @@
-import { nanoid } from 'nanoid';
 import PropTypes from 'prop-types';
+import axios from 'axios';
 
 const PersonsForm = ({ persons, setPersons, newName, setNewName, newNumber, setNewNumber }) => {
     const handleSubmit = (event) => {
@@ -11,12 +11,13 @@ const PersonsForm = ({ persons, setPersons, newName, setNewName, newNumber, setN
         }
 
         const newPerson = {
-            id: nanoid(),
             name: newName,
             number: newNumber
         }
 
-        setPersons([...persons, newPerson])
+        axios.post('http://localhost:3001/persons', newPerson)
+            .then(response => response.data)
+            .then(added => setPersons([...persons, added]))
     }
 
     return (
