@@ -1,7 +1,7 @@
 import PropTypes from 'prop-types';
 import personsService from '../services/personsService';
 
-const PersonsForm = ({ persons, setPersons, newName, setNewName, newNumber, setNewNumber, setNotificationMessage }) => {
+const PersonsForm = ({ persons, setPersons, newName, setNewName, newNumber, setNewNumber, setNotification }) => {
     const handleSubmit = (event) => {
         event.preventDefault()
 
@@ -15,11 +15,19 @@ const PersonsForm = ({ persons, setPersons, newName, setNewName, newNumber, setN
 
             personsService
                 .update(toUpdate.id, toUpdate)
-                .then(
-                    updated => setPersons(
-                        persons.map(x => x.id !== toUpdate.id ? x : updated)))
-
-            handleNotification(`Updated ${newName}`)
+                .then(updated => {
+                    setPersons(persons.map(x => x.id !== toUpdate.id ? x : updated))
+                    handleNotification(`Updated ${newName}`)
+                })
+                .catch(status => {
+                    if (status === 404) {
+                        setPersons(persons.filter(x => x.id !== toUpdate.id))
+                        handleNotification(`Information of ${newName} has already been removed from server`, true)
+                    }
+                    else {
+                        handleNotification(`Unknown error ${status} occurred while processing ${newName}`, true)
+                    }
+                })
 
             return
         }
@@ -36,9 +44,17 @@ const PersonsForm = ({ persons, setPersons, newName, setNewName, newNumber, setN
         handleNotification(`Added ${newName}`)
     }
 
-    const handleNotification = (message) => {
-        setNotificationMessage(message)
-        setTimeout(() => setNotificationMessage(null), 2000)
+    const handleNotification = (notification, isError = false) => {
+        const notificationMessage = {
+            notification,
+            isError
+        }
+        setNotification(notificationMessage)
+        setTimeout(() => setNotification(
+            {
+                notification: null,
+                isError: false
+            }), 2000)
     }
 
     return (
@@ -67,7 +83,7 @@ PersonsForm.propTypes = {
     setNewName: PropTypes.func.isRequired,
     newNumber: PropTypes.string.isRequired,
     setNewNumber: PropTypes.func.isRequired,
-    setNotificationMessage: PropTypes.func.isRequired
+    setNotification: PropTypes.func.isRequired
 }
 
 export default PersonsForm

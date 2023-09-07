@@ -16,6 +16,9 @@ const update = (id, newPerson) =>
     axios
         .put(`${baseUrl}/${id}`, newPerson)
         .then(response => response.data)
+        .catch(error => {
+            throw error.response.status
+        })
 
 const remove = id =>
     axios
