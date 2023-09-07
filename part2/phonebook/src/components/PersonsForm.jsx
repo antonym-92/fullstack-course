@@ -1,7 +1,7 @@
 import PropTypes from 'prop-types';
 import personsService from '../services/personsService';
 
-const PersonsForm = ({ persons, setPersons, newName, setNewName, newNumber, setNewNumber }) => {
+const PersonsForm = ({ persons, setPersons, newName, setNewName, newNumber, setNewNumber, setNotificationMessage }) => {
     const handleSubmit = (event) => {
         event.preventDefault()
 
@@ -18,7 +18,10 @@ const PersonsForm = ({ persons, setPersons, newName, setNewName, newNumber, setN
                 .then(
                     updated => setPersons(
                         persons.map(x => x.id !== toUpdate.id ? x : updated)))
-            return            
+
+            handleNotification(`Updated ${newName}`)
+
+            return
         }
 
         const newPerson = {
@@ -29,6 +32,13 @@ const PersonsForm = ({ persons, setPersons, newName, setNewName, newNumber, setN
         personsService
             .create(newPerson)
             .then(created => setPersons([...persons, created]))
+
+        handleNotification(`Added ${newName}`)
+    }
+
+    const handleNotification = (message) => {
+        setNotificationMessage(message)
+        setTimeout(() => setNotificationMessage(null), 2000)
     }
 
     return (
@@ -56,7 +66,8 @@ PersonsForm.propTypes = {
     newName: PropTypes.string.isRequired,
     setNewName: PropTypes.func.isRequired,
     newNumber: PropTypes.string.isRequired,
-    setNewNumber: PropTypes.func.isRequired
+    setNewNumber: PropTypes.func.isRequired,
+    setNotificationMessage: PropTypes.func.isRequired
 }
 
 export default PersonsForm
