@@ -1,6 +1,8 @@
 import PropTypes from 'prop-types'
+import Weather from './Weather'
 
-const Country = ({country, capital, area, languages, flagUrl}) =>{
+const Country = ({ country, capital, area, languages, flagUrl }) => {
+
     return (
         <>
             <h1>
@@ -19,6 +21,7 @@ const Country = ({country, capital, area, languages, flagUrl}) =>{
             <img src={flagUrl}
                 alt={`Unable to load ${country} flag`}
             />
+            <Weather capital={capital} />
         </>
     )
 }
