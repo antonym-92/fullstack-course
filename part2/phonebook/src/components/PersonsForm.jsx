@@ -5,9 +5,10 @@ const PersonsForm = ({ persons, setPersons, newName, setNewName, newNumber, setN
     const handleSubmit = (event) => {
         event.preventDefault()
 
-        if (persons.find(x => x.name === newName) &&
-            window.confirm(`${newName} is already added to phonebook, replace the old number with a new one?`)
-        ) {
+        if (persons.find(x => x.name === newName)) {
+            if (!window.confirm(`${newName} is already added to phonebook, replace the old number with a new one?`))
+                return
+
             const toUpdate = {
                 ...persons.find(x => x.name === newName),
                 number: newNumber
@@ -39,9 +40,10 @@ const PersonsForm = ({ persons, setPersons, newName, setNewName, newNumber, setN
 
         personsService
             .create(newPerson)
-            .then(created => setPersons([...persons, created]))
-
-        handleNotification(`Added ${newName}`)
+            .then(created => {
+                setPersons([...persons, created])
+                handleNotification(`Added ${newName}`)
+            })
     }
 
     const handleNotification = (notification, isError = false) => {
@@ -74,7 +76,7 @@ const PersonsForm = ({ persons, setPersons, newName, setNewName, newNumber, setN
 
 PersonsForm.propTypes = {
     persons: PropTypes.arrayOf(PropTypes.exact({
-        id: PropTypes.number.isRequired,
+        id: PropTypes.string.isRequired,
         name: PropTypes.string.isRequired,
         number: PropTypes.string.isRequired
     })).isRequired,

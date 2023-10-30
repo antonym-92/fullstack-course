@@ -29,7 +29,7 @@ const Persons = ({ persons, setPersons, filter }) => {
 
 Persons.propTypes = {
     persons: PropTypes.arrayOf(PropTypes.exact({
-        id: PropTypes.number.isRequired,
+        id: PropTypes.string.isRequired,
         name: PropTypes.string.isRequired,
         number: PropTypes.string.isRequired
     })).isRequired,
