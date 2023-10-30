@@ -20,13 +20,13 @@ const PersonsForm = ({ persons, setPersons, newName, setNewName, newNumber, setN
                     setPersons(persons.map(x => x.id !== toUpdate.id ? x : updated))
                     handleNotification(`Updated ${newName}`)
                 })
-                .catch(status => {
-                    if (status === 404) {
+                .catch(error => {
+                    if (error.status === 404) {
                         setPersons(persons.filter(x => x.id !== toUpdate.id))
                         handleNotification(`Information of ${newName} has already been removed from server`, true)
                     }
                     else {
-                        handleNotification(`Unknown error ${status} occurred while processing ${newName}`, true)
+                        handleNotification(error.message, true)
                     }
                 })
 
@@ -44,6 +44,8 @@ const PersonsForm = ({ persons, setPersons, newName, setNewName, newNumber, setN
                 setPersons([...persons, created])
                 handleNotification(`Added ${newName}`)
             })
+            .catch(error =>
+                handleNotification(error.message, true))
     }
 
     const handleNotification = (notification, isError = false) => {

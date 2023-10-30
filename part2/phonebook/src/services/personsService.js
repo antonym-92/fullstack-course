@@ -6,6 +6,9 @@ const create = newPerson =>
     axios
         .post(baseUrl, newPerson)
         .then(response => response.data)
+        .catch(error => {
+            throw { status: error.response.status, message: error.response.data.error }
+        })
 
 const getAll = () =>
     axios
@@ -17,7 +20,7 @@ const update = (id, newPerson) =>
         .put(`${baseUrl}/${id}`, newPerson)
         .then(response => response.data)
         .catch(error => {
-            throw error.response.status
+            throw { status: error.response.status, message: error.response.data.error }
         })
 
 const remove = id =>
